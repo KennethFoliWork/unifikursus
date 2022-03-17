@@ -105,9 +105,9 @@ Tip: You should be able to paste commands by right clicking into the command pro
 2. Login with the SSH command
 
 Note: change the IP address with the IP address of your Raspberry Pi (obtained in step '4. Lookup the IP address')
-
+```
 ssh 10.1.0.5 -l pi
- .
+```
 
 3. As we have not defined an SSH key, it will ask if we trust the host.
 
@@ -120,9 +120,6 @@ ECDSA key fingerprint is SHA256:XXX. Are you sure you want to continue connectin
 4. When typing in the password, you will not see characters being displayed, simply type it and enter
 
 The default password is:  raspberry
-.
-
-.
 
 ____________________________________________________________________________________________________________________________________________
 
@@ -135,62 +132,60 @@ You can view the script by looking on my Github page: https://github.com/Smoking
 .
 
 To install the UniFi controller and Pi Hole, copy/paste/run the following line of code:
-
+```
 wget "https://github.com/SmokingCrop/UniFi/raw/master/install-unifi-pihole-English.sh" -O install-unifi-pihole.sh && chmod +x install-unifi-pihole.sh && ./install-unifi-pihole.sh
-.
+```
 
 To only install the UniFi controller, copy/paste/run the following line of code:
-
+```
 wget "https://github.com/SmokingCrop/UniFi/raw/master/install-unifi-pihole-English.sh" -O install-unifi-pihole.sh && chmod +x install-unifi-pihole.sh && ./install-unifi-pihole.sh no-pihole
+```
  ____________________________________________________________________________________________________________________________________________
 
-.
-
-.
 
 6. Change the default password
 It's very unsafe to keep the default password, so we'll change it.
 
 Enter the passwd command, it'll ask you to type the current password once and your new password twice.
-
+```
 pi@raspberrypi:~ $ passwd 
 Changing password for pi. 
 (current) UNIX password: 
 Enter new UNIX password: 
 Retype new UNIX password: 
 passwd: password updated successfully
-
+```
 .
 
 7. Add the Raspbian Stretch sources.list for MongoDB compatability
 As the UniFi controller uses an old MongoDB version, it's necessary to add the old Raspbian Stretch sources.list. Otherwise the UniFi controller will not work with the latest Raspbian OS.
-
+```
 echo 'deb http://archive.raspbian.org/raspbian stretch main contrib non-free rpi' | sudo tee /etc/apt/sources.list.d/raspbian_stretch_for_mongodb.list
-.
+```
 
 8. Download and install updates
 To make sure you have all the latest updates and to clean up any unused/old ones, execute the following command:
-
+```
  sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo apt-get autoclean -y
-.
+```
 
 9. Install Java 8
 The default available Java version from Oracle is too old to make the 6.X UniFi controller work. Instead of doing multiple extra commands to upgrade this version, we're just going to install OpenJDK. It also requires the 'jsvc' and 'libcommons-daemon-java' packages.
-
+```
  sudo apt install openjdk-8-jre-headless jsvc libcommons-daemon-java -y
-.
+```
 
  10. Install haveged
 In order to fix the slow start-up of the UniFi controller, we have to install haveged. The reason for the slow start-up is the lack of user interaction (no mouse movements) causing issues with the mechanisms for 'harvesting randomness'.
-
+```
  sudo apt install haveged -y
-.
+```
 
  11. Install MongoDB
 The UniFi controller uses MongoDB. You can skip this, but then the installation of the UniFi controller will notice on its first try that it is missing and will install it anyways and then try to install UniFi again. So it's better to just install it already.
-
+```
  sudo apt install mongodb-server mongodb-clients -y
-.
+```
 
 12. Install the UniFi Controller
  
@@ -217,14 +212,14 @@ It's recommended to still go the blog of the update to know if any changes will 
 12.1 Install the UniFi Controller with method A
 
 1. Use the link with the wget command to download the Controller installation package.
-
+```
 wget https://dl.ui.com/unifi/7.0.23/unifi_sysvinit_all.deb
-.
+```
 
 2. Install UniFi and its dependencies.
-
+```
 sudo dpkg -i unifi_sysvinit_all.deb; sudo apt install -f -y
-.
+```
 
 Go to your UniFi Controller via the IP address and port:
 
@@ -243,31 +238,27 @@ https://community.ui.com/releases?q=Network+Application
 https://www.ui.com/download/unifi/
 
 
-.
-
-.
-
 12.2 Install the UniFi Controller with method B
 
 1. Install apt-transport-https in order to be able to use the 'deb' lines over HTTPS in the /etc/apt/sources.list
-
+```
 sudo apt install apt-transport-https -y
-. 
+```
 
 2. Add a new source to the list of sources from which packages can be obtained with 'apt'
-
+```
 echo 'deb https://www.ui.com/downloads/unifi/debian stable ubiquiti' | sudo tee /etc/apt/sources.list.d/100-ubnt-unifi.list
-. 
+```
 
 3. Add the GPG keys
-
+```
 sudo wget -O /etc/apt/trusted.gpg.d/unifi-repo.gpg https://dl.ui.com/unifi/unifi-repo.gpg
-. 
+```
 
 4. Update the packages after adding the new source and Install the UniFi package
-
+```
 sudo apt update && sudo apt install unifi -y
-.
+```
 
 Go to your UniFi Controller via the IP address and port:
 
@@ -281,10 +272,9 @@ You’ll want to set a reserved (fixed) IP address in the UniFi Controller for t
 
 13. Install Pi-hole
 Execute the following command and configure Pi-hole
-
- 
-
+```
 curl -sSL https://install.pi-hole.net | bash
+
 > Choose an interface: (*) eth0  (= ethernet cable)  
 > Choose your DNS provider: Custom 1.1.1.1, 8.8.8.8 (= fast cloudflare dns & basic Google dns)  or any other option
 > Choose your adblocking providers: leave them all enabled  
@@ -292,12 +282,13 @@ curl -sSL https://install.pi-hole.net | bash
 > PiHole wants to set a static IP. Let it do its thing. I guess they haven’t heard of DHCP reservation/central management yet.  
 > Install the Web admin interface and the web server
 > privacy mode for FTL: 0 Show everything
-
+```
 Change the password used to log into the web admin interface
 
  
-
+```
 pi@raspberrypi:~ $ pihole -a -p 
+```
 Enter New Password (Blank for no password): 
 Confirm Password:   
 [✓] New password set
